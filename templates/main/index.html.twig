@@ -9,12 +9,33 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    {% if app.user %}
+    <h1>Hello {{ app.user.Prenom }} {{ app.user.Nom }} ! ✅</h1>
+    {% endif %}
+    
 
     This friendly message is coming from:
     <ul>
         <li>Your controller at <code>D:/00_Programmes/laragon/www/GestionStock03/src/Controller/MainController.php</code></li>
         <li>Your template at <code>D:/00_Programmes/laragon/www/GestionStock03/templates/main/index.html.twig</code></li>
+        {% if app.user %}
+        <li>je suis connecté</li>
+        <li><a href=" {{ path('app_logout') }} ">DECONNEXION</a></li>
+        {% else %}
+        <li><a href=" {{ path('app_login') }} ">CONNEXION</a></li>
+        <li><a href=" {{ path('app_register') }} ">REGISTER</a></li>
+        {% endif %}
+        <hr>
+        <li><a href=" {{ path('app_products_index') }} ">PRODUITS</a></li>
+        <li><a href=" {{ path('app_category_index') }} ">CATEGORIES</a></li>
+        <li><a href=" {{ path('app_user_infos_index') }} ">INFOS PERSO</a></li>
+
+    </ul>
+    <ul>
+    <li><h2>Liste des utilisateurs</h2></li>
+        {% for use in user %}
+            <li> {{ use.nom }} {{ use.prenom }} {{ use.email }} </li>
+        {% endfor %}
     </ul>
 </div>
 {% endblock %}

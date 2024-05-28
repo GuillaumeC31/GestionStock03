@@ -3,12 +3,16 @@
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -30,6 +34,26 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\Column]
+    private bool $isVerified = false;
+
+    #[ORM\Column(length: 255)]
+    private ?string $Nom = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $Prenom = null;
+
+    /**
+     * @var Collection<int, UserInfos>
+     */
+    #[ORM\OneToMany(targetEntity: UserInfos::class, mappedBy: 'User')]
+    private Collection $userInfos;
+
+    public function __construct()
+    {
+        $this->userInfos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,5 +128,71 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->Nom;
+    }
+
+    public function setNom(string $Nom): static
+    {
+        $this->Nom = $Nom;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->Prenom;
+    }
+
+    public function setPrenom(string $Prenom): static
+    {
+        $this->Prenom = $Prenom;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserInfos>
+     */
+    public function getUserInfos(): Collection
+    {
+        return $this->userInfos;
+    }
+
+    public function addUserInfo(UserInfos $userInfo): static
+    {
+        if (!$this->userInfos->contains($userInfo)) {
+            $this->userInfos->add($userInfo);
+            $userInfo->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserInfo(UserInfos $userInfo): static
+    {
+        if ($this->userInfos->removeElement($userInfo)) {
+            // set the owning side to null (unless already changed)
+            if ($userInfo->getUser() === $this) {
+                $userInfo->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

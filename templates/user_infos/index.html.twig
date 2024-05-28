@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}UserInfos index{% endblock %}
+
+{% block body %}
+    <h1>UserInfos index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Ville</th>
+                <th>Cp</th>
+                <th>Created_at</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user_info in user_infos %}
+            <tr>
+                <td>{{ user_info.id }}</td>
+                <td>{{ user_info.ville }}</td>
+                <td>{{ user_info.cp }}</td>
+                <td>{{ user_info.createdAt ? user_info.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_user_infos_show', {'id': user_info.id}) }}">show</a>
+                    <a href="{{ path('app_user_infos_edit', {'id': user_info.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_user_infos_new') }}">Create new</a>
+{% endblock %}
