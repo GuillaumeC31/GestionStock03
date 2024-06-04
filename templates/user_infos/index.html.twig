@@ -9,6 +9,9 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
                 <th>Ville</th>
                 <th>Cp</th>
                 <th>Created_at</th>
@@ -19,9 +22,12 @@
         {% for user_info in user_infos %}
             <tr>
                 <td>{{ user_info.id }}</td>
+                <td>{{ user_info.nom }}</td>
+                <td>{{ user_info.prenom }}</td>
+                <td>{{ user_info.email }}</td>
                 <td>{{ user_info.ville }}</td>
                 <td>{{ user_info.cp }}</td>
-                <td>{{ user_info.createdAt ? user_info.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ user_info.createdAt ? user_info.createdAt|date('d-m-Y') : '' }}</td>
                 <td>
                     <a href="{{ path('app_user_infos_show', {'id': user_info.id}) }}">show</a>
                     <a href="{{ path('app_user_infos_edit', {'id': user_info.id}) }}">edit</a>

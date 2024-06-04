@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\UserInfos;
 use App\Form\UserInfosType;
 use App\Repository\UserInfosRepository;
+use App\Repository\UsersRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,11 +16,16 @@ use Symfony\Component\Routing\Attribute\Route;
 class UserInfosController extends AbstractController
 {
     #[Route('/', name: 'app_user_infos_index', methods: ['GET'])]
-    public function index(UserInfosRepository $userInfosRepository): Response
+    public function index(UserInfosRepository $userInfosRepository, UsersRepository $use): Response
     {
+        $user_infos = $userInfosRepository->findAll();
+        $user = $use->findAll();
+        return $this->render('user_infos/index.html.twig', compact('user_infos', 'user'));
+        /*
         return $this->render('user_infos/index.html.twig', [
             'user_infos' => $userInfosRepository->findAll(),
         ]);
+        */
     }
 
     #[Route('/new', name: 'app_user_infos_new', methods: ['GET', 'POST'])]

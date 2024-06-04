@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\CreatedAtTrait;
 use App\Repository\UserInfosRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserInfosRepository::class)]
 class UserInfos
 {
+    use CreatedAtTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -22,8 +25,24 @@ class UserInfos
     #[ORM\Column(nullable: true)]
     private ?int $cp = null;
 
+    /*
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
+    */
+
+    #[ORM\Column(length: 255)]
+    private ?string $Email = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $Nom = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $Prenom = null;
+
+    public function __construct()
+    {
+        $this->created_at = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -65,7 +84,7 @@ class UserInfos
 
         return $this;
     }
-
+/*
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->created_at;
@@ -74,6 +93,42 @@ class UserInfos
     public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+*/
+    public function getEmail(): ?string
+    {
+        return $this->Email;
+    }
+
+    public function setEmail(string $Email): static
+    {
+        $this->Email = $Email;
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->Nom;
+    }
+
+    public function setNom(string $Nom): static
+    {
+        $this->Nom = $Nom;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->Prenom;
+    }
+
+    public function setPrenom(string $Prenom): static
+    {
+        $this->Prenom = $Prenom;
 
         return $this;
     }

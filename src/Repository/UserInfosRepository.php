@@ -16,6 +16,41 @@ class UserInfosRepository extends ServiceEntityRepository
         parent::__construct($registry, UserInfos::class);
     }
 
+    public function findUsersPaginated(int $page, string $slug, int $limit = 6): array
+    {
+        $limit = abs($limit);
+
+        $result = [];
+
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('c', 'p')
+            ->from('App\Entity\UserInfos', 'p')
+            ->join('p.user_id', 'c')
+            /*->where("c.slug = '$slug'")*/
+            ->setMaxResults($limit)
+            ->setFirstResult(($page * $limit) - $limit);
+
+        $paginator = new Paginator($query);
+        $data = $paginator->getQuery()->getResult();
+        
+        //On vérifie qu'on a des données
+        if(empty($data)){
+            return $result;
+        }
+
+        //On calcule le nombre de pages
+        $pages = ceil($paginator->count() / $limit);
+
+        // On remplit le tableau
+        $result['data'] = $data;
+        $result['pages'] = $pages;
+        $result['page'] = $page;
+        $result['limit'] = $limit;
+
+        return $result;
+    }
+
+
     //    /**
     //     * @return UserInfos[] Returns an array of UserInfos objects
     //     */

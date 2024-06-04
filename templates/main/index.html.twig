@@ -28,14 +28,17 @@
         <hr>
         <li><a href=" {{ path('app_products_index') }} ">PRODUITS</a></li>
         <li><a href=" {{ path('app_category_index') }} ">CATEGORIES</a></li>
+        <li><a href=" {{ path('app_manufacturer_index') }} ">FABRICANT</a></li>
         <li><a href=" {{ path('app_user_infos_index') }} ">INFOS PERSO</a></li>
+        <li><a href=" {{ path('app_users_index') }} ">CRUD USERS</a></li>
 
     </ul>
     <ul>
     <li><h2>Liste des utilisateurs</h2></li>
         {% for use in user %}
-            <li> {{ use.nom }} {{ use.prenom }} {{ use.email }} </li>
+            <li>{{ use.id }} / {{ use.prenom }} {{ use.nom }} {{ use.email }}</li>
         {% endfor %}
     </ul>
 </div>
+
 {% endblock %}

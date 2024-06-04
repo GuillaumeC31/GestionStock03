@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Products
 {
     use CreatedAtTrait;
+    use SlugTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -26,6 +27,9 @@ class Products
 
     /*
     #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
+    #[ORM\Column(length: 255)]
     private ?string $Slug = null;
     
     #[ORM\Column]
@@ -35,6 +39,7 @@ class Products
     public function __construct()
     {
         $this->created_at = new \DateTimeImmutable();
+        $this->Produit = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -93,4 +98,18 @@ class Products
 
         return $this;
     }
+
+    /*
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+    */
 }

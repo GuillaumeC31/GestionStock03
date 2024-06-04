@@ -11,8 +11,8 @@
                 <th>Id</th>
                 <th>Produit</th>
                 {#<th>Slug</th>#}
-                <th>Created_at</th>
                 <th>Catégorie</th>
+                <th>Created_at</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -22,8 +22,8 @@
                 <td>{{ product.id }}</td>
                 <td>{{ product.Produit }}</td>
                 {#<td>{{ product.Slug }}</td>#}
-                <td>{{ product.createdAt ? product.createdAt|date('d/m/Y') : '' }}</td>
                 <td>{{ product.category.categorie }}</td>
+                <td>{{ product.createdAt ? product.createdAt|date('d/m/Y') : '' }}</td>
                 <td>
                     <a href="{{ path('app_products_show', {'id': product.id}) }}">show</a>
                     <a href="{{ path('app_products_edit', {'id': product.id}) }}">edit</a>

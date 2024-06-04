@@ -3,19 +3,19 @@
 namespace App\Form;
 
 use App\Entity\Category;
-use App\Entity\Products;
+use App\Entity\Manufacturer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProductsType extends AbstractType
+class ManufacturerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('Produit', TextType::class, [
+            ->add('Fabricant', TextType::class, [
                 'attr' => [
                     'value' => ""
                 ]
@@ -25,13 +25,14 @@ class ProductsType extends AbstractType
                 'choice_label' => 'Categorie',
                 'label' => 'Categorie'
             ])
+
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Products::class,
+            'data_class' => Manufacturer::class,
         ]);
     }
 }

@@ -21,10 +21,12 @@ class ProductsController extends AbstractController
         $products = $productsRepository->findAll();
         $category = $cat->findAll();
         return $this->render('products/index.html.twig', compact('products', 'category'));
-        /*return $this->render('products/index.html.twig', [
+        /*
+        return $this->render('products/index.html.twig', [
             'products' => $productsRepository->findAll(),
             'category' => $cat->findAll()
-        ]);*/
+        ]);
+        */
     }
 
     #[Route('/new', name: 'app_products_new', methods: ['GET', 'POST'])]
